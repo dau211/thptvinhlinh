@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống thi trực tuyến</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Bảng màu theo thiết kế mới */
+            --primary-blue: #2563eb;
+            --primary-blue-hover: #1d4ed8;
+            --primary-green: #10b981;
+            --primary-green-hover: #059669;
+            --text-dark: #1e293b;
+            --text-gray: #475569;
+            --bg-gradient-start: #f0f9ff; /* Xanh nhạt */
+            --bg-gradient-end: #ecfdf5;   /* Xanh lá nhạt */
+            --footer-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- THANH ĐIỀU HƯỚNG (HEADER) --- */
+        header {
+            display: flex;
+            justify-content: flex-start; 
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+        }
+
+        .logo-area svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* --- PHẦN NỘI DUNG CHÍNH (HERO) --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 2rem 5% 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Container cho phần thẻ và ảnh */
+        .hero-main {
+            display: flex;
+            width: 100%;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            flex: 1.4; 
+            width: 100%; 
+            animation: fadeInLeft 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            text-align: center;
+            width: 100%;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- CÁC KHỐI CHỌN VAI TRÒ --- */
+        .role-cards {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .role-card {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-teacher { background-color: var(--primary-blue); }
+        .card-student { background-color: var(--primary-green); }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .arrow-btn {
+            margin-top: auto;
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            align-self: flex-start;
+        }
+
+        /* --- DANH SÁCH TÍNH NĂNG --- */
+        .features-list {
+            display: flex;
+            gap: 1rem; 
+            flex-wrap: nowrap; 
+            justify-content: space-between;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex-shrink: 0; 
+        }
+
+        .feature-text h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .feature-text p {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            white-space: nowrap; 
+        }
+
+        /* --- HÌNH ẢNH BÊN PHẢI --- */
+        .hero-image {
+            flex: 0.8; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: fadeInRight 0.8s ease-out;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            max-width: 400px; 
+            aspect-ratio: 1;
+            /* Đã sửa: Đổi thành 50% để tạo thành hình tròn hoàn hảo */
+            border-radius: 50%; 
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border: 10px solid white;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- CHÂN TRANG --- */
+        footer {
+            background-color: var(--footer-bg);
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem 20px;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* --- THÍCH ỨNG DI ĐỘNG (RESPONSIVE) --- */
+        @media (max-width: 992px) {
+            .hero-main {
+                flex-direction: column;
+                text-align: center;
+            }
+            .role-cards {
+                justify-content: center;
+            }
+            .arrow-btn {
+                align-self: center; 
+            }
+            .features-list {
+                justify-content: center;
+                flex-wrap: wrap; 
+            }
+            .feature-item {
+                text-align: left;
+            }
+            .image-wrapper {
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .role-cards {
+                flex-direction: column;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .logo-area span {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L1 9L4 10.63V17.5C4 18.88 7.58 20 12 20C16.42 20 20 18.88 20 17.5V10.63L23 9L12 3ZM12 18.5C8.38 18.5 5.5 17.65 5.5 16.5V11.45L12 15L18.5 11.45V16.5C18.5 17.65 15.62 18.5 12 18.5ZM12 13.25L3.25 8.5L12 3.75L20.75 8.5L12 13.25Z"></path>
+            </svg>
+            <span>HỆ THỐNG THI TRỰC TUYẾN</span>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 class="hero-title">CHÀO MỪNG ĐẾN VỚI HỆ THỐNG THI TRỰC TUYẾN</h1>
+        <p class="hero-subtitle">Nền tảng kiểm tra, đánh giá kiến thức tiện lợi cho giáo viên và học sinh.</p>
+        
+        <div class="hero-main">
+            <div class="hero-content">
+                <div class="role-cards">
+                    <a href="https://dauthanh.x10.network/admin.php" class="role-card card-teacher">
+                        <div class="card-icon">
+                            <svg width="32" height="32" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3>GIÁO VIÊN</h3>
+                        <p>Truy cập dành cho Giáo viên</p>
+                        <div class="arrow-btn">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                    </a>
+
+                    <a href="https://dauthanh.x10.network" class="role-card card-student">
+                        <div class="card-icon">
+                            <svg width="32" height="32" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                        </div>
+                        <h3>HỌC SINH</h3>
+                        <p>Làm bài thi, xem kết quả và ôn tập kiến thức</p>
+                        <div class="arrow-btn">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">📝</div>
+                        <div class="feature-text">
+                            <h4>Đề Thi Tiêu Chuẩn</h4>
+                            <p>Biên soạn chuyên nghiệp</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-text">
+                            <h4>Báo Cáo Phân Tích</h4>
+                            <p>Đánh giá năng lực chi tiết</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📚</div>
+                        <div class="feature-text">
+                            <h4>Ngân Hàng Câu Hỏi</h4>
+                            <p>Đa dạng và phong phú</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="image-wrapper">
+                    <img src="banner.png.png" alt="Lớp học thực hành">
+                </div>
+            </div>
+        </div>
+    </section>
+ <div style="margin-bottom: 20px; display: flex; justify-content: center; padding: 0 10px;">
+            <iframe width="800" height="560" 
+    src="https://www.youtube.com/embed/XpMnrLjuQ8k" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen 
+    style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+</iframe>
+        </div>
+        
+    <footer>
+       
+        <p>Giáo viên chuyển đổi số trong giáo dục.</p>
+    </footer>
+
+</body>
+</html>
